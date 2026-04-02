@@ -3,7 +3,7 @@ import Generator from './components/Generator';
 
 export default function App() {
     return (
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-10xl mx-auto">
             <div className="rounded-2xl p-8" style={{
                 background: 'var(--glass-bg)',
                 border: '1px solid var(--glass-border)',

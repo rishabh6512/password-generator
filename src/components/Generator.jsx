@@ -166,121 +166,159 @@ export default function Generator() {
     function regen() { setPassword(generateFromCounts(counts)); setCopied(false); }
 
     return (
-        <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-0">
+        <div className="relative w-full max-w-4xl mx-auto">
 
-            <div className="flex items-center justify-between mb-4">
-                <div>
-                    <div className="text-white text-base sm:text-lg font-semibold">Password Generator</div>
-                    <div className="text-slate-300 text-xs sm:text-sm">⦾ Secure ⦾ Random</div>
-                </div>
-                <motion.div className="text-xl sm:text-2xl">🔐</motion.div>
+            <div className="absolute inset-0 rounded-2xl p-[3px] overflow-hidden">
+                <div className="absolute inset-0 rounded-2xl bg-[length:200%_200%] animate-gradient-move 
+            bg-gradient-to-r from-purple-500 via-orange-500 to-yellow-400" />
+                <div className="relative w-full h-full bg-[#0b1220] rounded-2xl" />
             </div>
 
-            <AnimatePresence mode="wait">
+            <div className="relative sm:p-6">
+                {/* <div className="flex items-center justify-between mb-4">
+                    <div>
+                        <div className="text-white text-base sm:text-lg font-semibold">Password Generator</div>
+                        <div className="text-slate-300 text-xs sm:text-sm">⦾ Secure ⦾ Random</div>
+                    </div>
+                    <motion.div className="text-xl sm:text-2xl">🔐</motion.div>
+                </div> */}
+
                 <motion.div
-                    key={password}
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 px-3 sm:px-4 py-3 rounded-lg"
-                    style={{
-                        background: 'linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01))',
-                        border: '1px solid rgba(255,255,255,0.04)'
-                    }}
+                    initial={{ y: 8, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -8, opacity: 0 }}
+                    transition={{ duration: 0.36 }}
+                    className="flex items-center justify-between mb-4"
                 >
-                    <div className="text-sm text-white truncate font-mono-custom w-full sm:w-3/4">
-                        {password || '—'}
+                    <div>
+                        <div className="text-white text-base sm:text-lg font-semibold">
+                            Password Generator
+                        </div>
+                        <div className="text-slate-300 text-xs sm:text-sm">
+                            ⦾ Secure ⦾ Random
+                        </div>
                     </div>
 
-                    <div className="flex gap-2 w-full sm:w-auto">
-                        <button
-                            onClick={copyPw}
-                            className="flex-1 sm:flex-none px-3 py-1 rounded-md text-sm text-white bg-gradient-to-r from-accent1 to-accent2"
-                        >
-                            {copied ? 'Copied' : 'Copy'}
-                        </button>
-                        <button
-                            onClick={regen}
-                            className="flex-1 sm:flex-none px-3 py-1 rounded-md text-sm text-slate-200 border border-white/6"
-                        >
-                            Regenerate
-                        </button>
-                    </div>
+                    <motion.div className="text-xl sm:text-2xl">
+                        🔐
+                    </motion.div>
                 </motion.div>
-            </AnimatePresence>
 
-            {/* GRID FIX */}
-            <div className="bg-white/3 p-3 rounded-lg mb-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {[
-                    { label: 'Lowercase', value: lower, set: setLower },
-                    { label: 'Uppercase', value: upper, set: setUpper },
-                    { label: 'Digits', value: digits, set: setDigits },
-                    { label: 'Special', value: special, set: setSpecial },
-                ].map((item) => (
-                    <div key={item.label} className="flex items-center justify-between gap-3 p-2 bg-white/5 rounded-md">
-                        <div className="text-sm text-slate-200">{item.label}</div>
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={password}
+                        initial={{ y: 8, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -8, opacity: 0 }}
+                        transition={{ duration: 0.36 }}
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 px-3 sm:px-4 py-3 rounded-lg"
+                        style={{
+                            background: 'linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01))',
+                            border: '1px solid rgba(255,255,255,0.04)'
+                        }}
+                    >
+                        <div className="text-sm text-white truncate font-mono-custom w-full sm:w-3/4">
+                            {password || '—'}
+                        </div>
 
-                        <input
-                            type="number"
-                            min="0"
-                            max={MAX}
-                            value={item.value}
-                            onChange={(e) => {
-                                const v = clamp(Number(e.target.value || 0), 0, MAX);
-                                item.set(v);
-                            }}
-                            className="w-16 sm:w-20 text-right px-2 py-1 rounded-md bg-transparent border border-white/6 text-white"
-                        />
+                        <div className="flex gap-2 w-full sm:w-auto">
+                            <button
+                                onClick={copyPw}
+                                className="flex-1 sm:flex-none px-3 py-1 rounded-md text-sm text-white bg-gradient-to-r from-accent1 to-accent2"
+                            >
+                                {copied ? 'Copied' : 'Copy'}
+                            </button>
+                            <button
+                                onClick={regen}
+                                className="flex-1 sm:flex-none px-3 py-1 rounded-md text-sm text-slate-200 border border-white/6"
+                            >
+                                Regenerate
+                            </button>
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+
+                <div className="bg-white/3 p-3 rounded-lg mb-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[
+                        { label: 'Lowercase', value: lower, set: setLower },
+                        { label: 'Uppercase', value: upper, set: setUpper },
+                        { label: 'Digits', value: digits, set: setDigits },
+                        { label: 'Special', value: special, set: setSpecial },
+                    ].map((item) => (
+                        <div key={item.label} className="flex items-center justify-between gap-3 p-2 bg-white/5 rounded-md">
+                            <div className="text-sm text-slate-200">{item.label}</div>
+
+                            <input
+                                type="number"
+                                min="0"
+                                max={MAX}
+                                value={item.value}
+                                onChange={(e) => {
+                                    const v = clamp(Number(e.target.value || 0), 0, MAX);
+                                    item.set(v);
+                                }}
+                                className="w-16 sm:w-20 text-right px-2 py-1 rounded-md bg-transparent border border-white/6 text-white"
+                            />
+                        </div>
+                    ))}
+                </div>
+
+                <div className="mb-3">
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-slate-300 mb-2">
+                        <div>Total length</div>
+                        <div className="text-white font-medium">{totalLength}</div>
                     </div>
-                ))}
-            </div>
 
-            <div className="mb-3">
-                <div className="flex items-center justify-between text-xs sm:text-sm text-slate-300 mb-2">
-                    <div>Total length</div>
-                    <div className="text-white font-medium">{totalLength}</div>
-                </div>
-
-                <input
-                    type="range"
-                    min="1"
-                    max={MAX}
-                    value={totalLength}
-                    onChange={(e) => setTotalLength(Number(e.target.value))}
-                    className="w-full"
-                />
-            </div>
-
-            {error && <div className="text-xs text-rose-400 mb-3">{error}</div>}
-
-            <div className="mb-4">
-                <div className="flex items-center justify-between text-xs sm:text-sm text-slate-300 mb-2">
-                    <span>Password strength</span>
-                    <span className="text-white">{strength.label}</span>
-                </div>
-
-                <div className="w-full h-2 bg-white/10 rounded">
-                    <div
-                        className={`h-2 rounded ${strength.color} transition-all duration-300`}
-                        style={{ width: strength.width }}
+                    <input
+                        type="range"
+                        min="1"
+                        max={MAX}
+                        value={totalLength}
+                        onChange={(e) => setTotalLength(Number(e.target.value))}
+                        className="w-full"
                     />
                 </div>
+
+                {error && <div className="text-xs text-rose-400 mb-3">{error}</div>}
+
+                <div className="mb-4">
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-slate-300 mb-2">
+                        <span>Password strength</span>
+                        <span className="text-white">{strength.label}</span>
+                    </div>
+
+                    <div className="w-full h-2 bg-white/10 rounded">
+                        <div
+                            className={`h-2 rounded ${strength.color} transition-all duration-300`}
+                            style={{ width: strength.width }}
+                        />
+                    </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                    <motion.button
+                        onClick={() => { setLower(4); setUpper(4); setDigits(4); setSpecial(4); }}
+                        whileHover={{ scale: 1.04, y: -1 }}
+                        whileTap={{ scale: 0.97 }}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+                        className="w-full sm:flex-1 px-4 py-2 rounded-lg text-white font-semibold bg-gradient-to-r from-accent1 to-accent2"
+                    >
+                        Reset Preset
+                    </motion.button>
+
+                    <motion.button
+                        onClick={() => { setLower(Math.max(1, lower)); setUpper(Math.max(0, upper)); setDigits(Math.max(0, digits)); }}
+                        whileHover={{ scale: 1.04, y: -1, backgroundColor: 'rgba(255,255,255,0.06)' }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+                        className="w-full sm:w-auto px-4 py-2 rounded-lg text-slate-200 border border-white/6 bg-transparent"
+                    >
+                        Ensure Lowercase
+                    </motion.button>
+                </div>
             </div>
-
-            {/* BUTTON STACK FIX */}
-            <div className="flex flex-col sm:flex-row gap-3">
-                <motion.button
-                    onClick={() => { setLower(4); setUpper(4); setDigits(4); setSpecial(4); }}
-                    className="w-full sm:flex-1 px-4 py-2 rounded-lg text-white font-semibold bg-gradient-to-r from-accent1 to-accent2"
-                >
-                    Reset Preset
-                </motion.button>
-
-                <motion.button
-                    onClick={() => { setLower(Math.max(1, lower)); setUpper(Math.max(0, upper)); setDigits(Math.max(0, digits)); }}
-                    className="w-full sm:w-auto px-4 py-2 rounded-lg text-slate-200 border border-white/6"
-                >
-                    Ensure Lowercase
-                </motion.button>
-            </div>
-
         </div>
     );
 }
